@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    <body>
+        <ui:composition>
+            <div class="title-block">
+                <h:link value="TEAM FORUM" outcome="/index.xhtml?faces-redirect=true" class='title'/>
+            </div>
+            <h:commandButton rendered="#{loginBean.isLogged==true}" value="Logout" 
+                             action="#{loginBean.logout()}" styleClass="header-button"/>
+            <h:commandButton rendered="#{loginBean.isLogged==true}" value="My profile " 
+                             action="#{userBean.getUserFromDB(loginBean.name)}" styleClass="header-button"/>
+            <h:commandButton rendered="#{loginBean.isLogged==true}" value="Search" 
+                             action="#{forumBean.search()}" styleClass="header-button-search"/>
+            <h:inputText value="#{forumBean.textSearch}" rendered="#{loginBean.isLogged==true}" styleClass="header-search"/><br></br>
+        </ui:composition>        
+    </body>
+</html>

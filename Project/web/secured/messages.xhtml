@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <h:outputStylesheet library="css" name="table-style.css"  />
+        <h:outputStylesheet library="css" name="common-style.css"  />
+        <title> #{forumBean.currentTopicName} </title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/resources/templates/commonLayout2.xhtml">
+            <ui:define name="feed">
+                <h:form>
+
+                    <h:link outcome="/index.xhtml?faces-redirect=true">    
+                        <h:graphicImage value="/resources/images/home3.png" styleClass="navigation-img"/>
+                    </h:link>
+                    <div class="navigation-block">
+                        <div class="navigation-div">
+                            <h:link value="/ forum" outcome="forum.xhtml?faces-redirect=true" styleClass="navigation-ref"/>
+                        </div>
+                        <div class="navigation-div">
+                            <h:link value="/ #{forumBean.currentSectionName}" outcome="topics.xhtml?section_id=#{forumBean.currentSectionID}" styleClass="navigation-ref"/>
+                        </div>
+                        <div class="navigation-div">
+                            <h:link value="/ #{forumBean.currentTopicName}" styleClass="navigation-ref"/>
+                        </div>
+                    </div>
+                    
+                    <h3 class="headline"><span> Topic: #{forumBean.currentTopicName}</span></h3>
+                    
+                    <div class="messages-block">
+                        
+                        <h:dataTable value="#{forumBean.messageFromTop}" var="message"
+                                     width="100%"
+                                     styleClass="message-table" 
+                                     columnClasses="messages-column1, messages-column2"
+                                     rowClasses="messages-row">
+                            
+                                <h:column>                                   
+                                    <h:graphicImage value="/resources/Avatars/#{message.USER_NAME}.jpg" alt="" styleClass="messages-avatar"/>
+                                            <div class="messages-cell-user">
+                                                #{message.USER_NAME}
+                                            </div>     
+                                </h:column>
+                                <h:column>
+                                        <!-- column header -->
+                                        <!--<f:facet name="header">Message</f:facet>-->
+                                        <div class="messages-cell-message">
+                                            #{message.MESSAGE}
+                                            
+                                        </div>
+                                        <div class="messages-line1"/>
+                                        <div class="messages-note"> date:#{message.DATE_T} </div>
+                                        
+                                </h:column>
+                        </h:dataTable>
+                        
+                        <div class="messages-line" />
+                        <div class="messages-sending-block">
+                            <h:graphicImage value="/resources/Avatars/#{loginBean.name}.jpg" styleClass="messages-sending-avatar"/>
+                            
+                            <h:inputTextarea value="#{forumBean.message}" requiredMessage="Please, fill this field" 
+                                             styleClass="messages-sending-input"/>
+                            
+                            <p align="center"> <h:commandButton styleClass="messages-button" value="ANSWER" action="#{forumBean.addNewMessage(loginBean.id)}" 
+                                                 id="mybutton" binding="#{forumBean.mybutton}" />
+                            </p>
+                                
+                                <p><h:message for="mybutton" styleClass="page-body "/> </p>
+                        </div>
+                           
+                    </div>
+                            
+ 
+                   <div align="left" >  <h:outputText value="Page #{forumBean.pageTopics + 1}"/> </div>    
+                            
+                   <h:commandButton rendered="#{forumBean.pageMessages>0}" value="Previous" styleClass="index-button" 
+                                         action="#{forumBean.previousPage(forumBean.isMessag())}"/>
+                            
+                   <h:commandButton rendered="#{forumBean.lastPageMess==false}" value="Next" styleClass="index-button"
+                                    action="#{forumBean.nextPage(forumBean.isMessag())}"/>
+ 
+                </h:form>
+            </ui:define>    	
+        </ui:composition>
+    </h:body>   
+</html>
+
+    

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      >
+    
+    <h:head>
+        <h:outputStylesheet library="css" name="common-style.css"  />
+        <title>Forum</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/resources/templates/commonLayout2.xhtml">
+            <ui:define name="feed">
+                
+                <h:link outcome="/index.xhtml?faces-redirect=true">
+                    <h:graphicImage value="/resources/images/home3.png" styleClass="navigation-img"/>
+                </h:link>                
+                <div class="navigation-block">
+                    <div  class="navigation-div">
+                       <h:link value="/ main page" outcome="/index.xhtml?faces-redirect=true" styleClass="navigation-ref"/> 
+                    </div>
+                </div>
+                <div  class="clear"/>
+                
+                <h3 class="headline"><span>List of sections: </span></h3>
+                
+                <h:panelGroup layout="block" rendered="#{userBean.isAdmin(loginBean.name)}" styleClass="forum-adding-section">
+                     <h:outputLabel value="Enter the name of new section: "/>
+                     <h:inputText value="#{forumBean.nameNewSection}" requiredMessage="Пожалуйста, заполните поле"/>
+                     <h:commandButton styleClass="forum-button-small" value="ADD" 
+                                         action="#{forumBean.addNewSection(loginBean.id)}" id="mybutton" 
+                                         binding="#{forumBean.mybutton}" />
+                     <p><h:message for="mybutton" styleClass="page-body"/> </p>
+                </h:panelGroup>
+                
+                
+                <div class="forum-sections">
+                    <h:form>
+                        <h:dataTable value="#{forumBean.sectionsInfo}" var="section" styleClass="forum-table">
+
+                            <h:column>
+                                <div class="forum-line"/>
+                                <div class="forum-cell">
+                                    <div class="forum-decoration"/>
+                                    <h:outputLink styleClass="forum-ref" value="topics.xhtml?section_id=#{section.SECTION_ID}">
+                                    #{section.SECTION_NAME}      
+                                    </h:outputLink> 
+                                    <div class="forum-note">topics:#{section.SECTION_TOPICS}   messages:#{section.SECTION_Messages}</div>
+                                </div>    
+                                <div class="clear"/>
+                            </h:column>
+                        </h:dataTable>
+                    </h:form> 
+                </div>
+                
+
+                
+            </ui:define>    	
+        </ui:composition>
+    </h:body>
+</html>
